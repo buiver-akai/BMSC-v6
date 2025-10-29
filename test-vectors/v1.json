@@ -1,0 +1,24 @@
+{
+  "v1": [
+    {
+      "description": "Basic encryption/decryption test 1",
+      "K_master": "6d61737465726b65793132333435363738393031323334353637383930313233343536373839303132",
+      "IV": "3230323531303239",
+      "plaintext": "48656c6c6f576f726c6432303235",
+      "nonce": "8c2fe5d6a616b8809f7d3daf3f51b899",
+      "ciphertext": "6fc65b8bd2c15aaff6974da1fef8",
+      "tag": "f29246ba10c886d97eb49ea858dcec40",
+      "decrypted": "48656c6c6f576f726c6432303235"
+    },
+    {
+      "description": "Basic encryption/decryption test 2 (same IV, different plain)",
+      "K_master": "6d61737465726b65793132333435363738393031323334353637383930313233343536373839303132",
+      "IV": "3230323531303239",
+      "plaintext": "48656c6c6f576f726c6454657374",
+      "nonce": "560ca9c6805ec4a52401a9bedc6df16c",
+      "ciphertext": "5c0c7c74dbe2825e207f35986ec1",
+      "tag": "cfce01c5f1d22bae8c30e098e49545f0",
+      "decrypted": "48656c6c6f576f726c6454657374"
+    }
+  ]
+}
