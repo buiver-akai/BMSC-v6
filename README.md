@@ -60,4 +60,4 @@ See /test-vectors and apps/cli (selftest).
 MIT © 赤井 英生
 
 Developed by 赤井 英生 at 株式会社&nbsp;BUIVER.
-Commercial licensing: DM @buiver-akai.
+Commercial licensing: email akai@buiver.jp.
