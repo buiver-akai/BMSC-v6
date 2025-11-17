@@ -1,9 +1,0 @@
-{
-  "ver": "bmsc6",
-  "kid": "local:drive",
-  "ctx": "BMSCv6-IV00",
-  "nonce_b64": "FrMB4bvWZvERKB12mmdZcZtnSIex+586",
-  "tag_b64": "3eVJaTkSrupDQerqV3UKCA==",
-  "created_at": 1763414011,
-  "bmsc6_version": 2
-}
