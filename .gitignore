@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.env
+
+# テスト生成物はコミットしない
+key_*.bin
+*_encrypted.bin
+*_decrypted.*
+*.pdf
+*.zip
+
+# keys（汎用化）
+*.key
+*key*.bin
+
+# venv
+.venv/

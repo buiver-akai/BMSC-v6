@@ -1,0 +1,11 @@
+{
+  "algorithm": "XChaCha20-Poly1305",
+  "ctx": "BMSCv6-IV00",
+  "aad_b64": "dGVzdC1hYWQ=",
+  "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+  "nonce_b64": "HQFFHFppaeDTu5Acm4IIQsJns4PFZ9Ee",
+  "ct_b64": "kQ0KV9hoGjrsC3AqE65ns3jjvUCevnEnj44=",
+  "tag_b64": "cl+TaUGsItnTyqznFOO7jA==",
+  "pt_utf8": "Test vector: 日本語🍣",
+  "pt_sha256": "af71be7be343581e072afc46e28b5968795f7cbd6d68857ac4e099ff7f394826"
+}
