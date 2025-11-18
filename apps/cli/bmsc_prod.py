@@ -1,4 +1,4 @@
-# apps/cli/bmsc_prod.py
+﻿# apps/cli/bmsc_prod.py
 import argparse, os, base64, sys, struct
 from pathlib import Path
 
@@ -191,7 +191,7 @@ def build():
         sp.add_argument("--key-file",
                         help="鍵ファイル（32B）")
         sp.add_argument("--show-key", action="store_true",
-                        help="キーを表示する（既定は非表示。--key-hex 指定時は自動表示）")
+                        help="キーを表示する（検証・デバッグ用。本番運用では通常は使用しない想定）")
 
     s = sub.add_parser("selftest", help="自己診断")
     common(s); s.set_defaults(func=cmd_selftest)

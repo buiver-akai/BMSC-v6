@@ -144,3 +144,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Key Management and Windows Key Protection
+
+This section summarizes the recommended key handling policy for BMSC v6.
+
+- For production use, prefer **`--key-file`** over `--key-hex`.  
+  `--key-hex` and `--show-key` are mainly intended for local testing and debugging.
+- Use **random 32‑byte binary keys** (e.g. `os.urandom(32)` in Python), and keep them out of Git or any VCS.
+- On Windows, restrict the key file ACLs so that only **the current user and SYSTEM** can access it.
+- See `windows_key_protection.md` (or `docs/ops/windows_key_protection.md` in this repo) for step‑by‑step commands.
+
+Example for generating and protecting a key on Windows PowerShell:
+
+```powershell
+py - <<'PY'
+import os; open('key_cli.bin','wb').write(os.urandom(32))
+PY
+
+icacls key_cli.bin /inheritance:r /grant:r "$env:USERNAME":F /grant:r "SYSTEM":F
+```
+
+Handle the key file with the same care as any other long‑term symmetric key
+(no sharing over chat, no plain uploads, and avoid copying it to untrusted machines).
