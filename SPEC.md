@@ -2,18 +2,19 @@
 
 **Version:** 2  
 **Status:** Stable (2025-11-17)  
-**Purpose:** Self-contained container for BMSC v6 ciphertext and its associated *context* (`ctx`) and *additional authenticated data* (`aad`).
+**Purpose:** Self-contained container for BMSC v6 ciphertext and its associated _context_ (`ctx`) and _additional authenticated data_ (`aad`).
 
 ---
 
 ## 1. High-level
 
 A `*.bmsc6` file packages:
+
 - **Header** (magic, version, flags)
 - **Lengths** for `ctx` and `aad`
 - **Payload**: `ctx`, `aad`, `nonce (24B)`, `tag (16B)`, `ct (variable)`
 
-`ctx` = a UTF-8 text label that identifies *use / domain* (e.g., `"BMSCv6-IV00"`).  
+`ctx` = a UTF-8 text label that identifies _use / domain_ (e.g., `"BMSCv6-IV00"`).  
 `aad` = arbitrary bytes (commonly UTF-8 JSON) that must match at decryption (binds filename/hash/etc.).  
 Both `ctx` and `aad` are authenticated via the AEAD tag (tamper detection).
 
@@ -42,9 +43,14 @@ offset  size  description
 ```
 
 > Notes
+>
 > - `ctx` is UTF-8 text by convention (but treated as opaque bytes in the format).
 > - `aad` can be any bytes. In most demos we store compact JSON like:  
 >   `{"name":"住民票_サンプル.pdf","size":473,"sha256":"..."} (UTF-8)`
+> - `name`: Logical source name of the plaintext (e.g. `juminhyo.pdf`).
+>   This value is integrity-protected as part of AEAD AAD. Changing `name`
+>   requires re-encrypting the file; the OS-level filename of the BMSC
+>   container itself is **not** used as AAD.
 > - `nonce` must be unique per encryption under the same key. Random 24B from libsodium is recommended.
 > - `tag` is the 16-byte Poly1305 tag returned by the AEAD.
 > - `ct` is the AEAD ciphertext for the plaintext `pt`.
@@ -111,7 +117,7 @@ pt = aead_decrypt(nonce, ct, tag, key, ctx_bytes, aad_bytes)
 ## 4. Security Considerations
 
 - **Nonce uniqueness**: XChaCha20 requires a 24-byte nonce unique per encryption under the same key. Use cryptographically secure randomness. Never reuse a `(key, nonce)` pair.
-- **Context binding**: Treat `ctx` as a *label*. Ensure the decryptor provides/validates the same `ctx`. BMSC v6 reference code binds `ctx` via AAD so decryption fails if contexts mismatch.
+- **Context binding**: Treat `ctx` as a _label_. Ensure the decryptor provides/validates the same `ctx`. BMSC v6 reference code binds `ctx` via AAD so decryption fails if contexts mismatch.
 - **AAD content**: Include meaningful identifiers (e.g., filename, size, SHA-256). If these should not reveal information, replace the raw hash with an **HMAC** of the hash under a separate secret.
 - **Replay**: To mitigate replay in messaging, extend AAD with monotonic counters, timestamps, `message_id`, etc., and enforce freshness/uniqueness at application level.
 - **Key rotation**: Track key ids (KIDs) in side metadata or wrap `*.bmsc6` inside a higher-level envelope that carries `kid`, issuer, created_at, etc.
@@ -132,6 +138,7 @@ pt = aead_decrypt(nonce, ct, tag, key, ctx_bytes, aad_bytes)
 ## 6. Test Guidance
 
 A simple round-trip test:
+
 1. Build an example `pt` (e.g., a short PDF).
 2. Choose `ctx = "BMSCv6-IV00"` and an `aad` JSON with name/size/sha256.
 3. Encrypt → produce `.bmsc6`.
